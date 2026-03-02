@@ -102,7 +102,7 @@
       "Implement sentiment.fetcher.ts (Reddit JSON)",
       "Integrate to orchestrator"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

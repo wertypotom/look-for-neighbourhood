@@ -9,7 +9,7 @@ interface ZillowRow {
 }
 
 const seedZillow = async () => {
-  const csvPath = path.join(__dirname, '../../../data/zillow_rent.csv');
+  const csvPath = path.join(__dirname, '../../data/zillow_rent.csv');
   console.log(`[Seed] Looking for Zillow CSV at: ${csvPath}`);
 
   if (!fs.existsSync(csvPath)) {
