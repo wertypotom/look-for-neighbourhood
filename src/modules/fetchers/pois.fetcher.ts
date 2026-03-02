@@ -5,12 +5,12 @@ export const fetchPois: Fetcher = async (
   zip: string,
 ): Promise<FetcherResult> => {
   try {
-    const coords = await GeocodeService.getCoordinatesForZip(zip);
-    if (!coords) {
+    const location = await GeocodeService.getCoordinatesForZip(zip);
+    if (!location) {
       return {
         source: 'OpenStreetMap POIs',
         data: null,
-        error: `Could not determine coordinates for ZIP: ${zip}`,
+        error: `Could not determine location for ZIP: ${zip}`,
         fetchedAt: new Date(),
       };
     }
@@ -19,7 +19,7 @@ export const fetchPois: Fetcher = async (
     const overpassQuery = `
       [out:json][timeout:15];
       (
-        node["amenity"](around:2000,${coords.lat},${coords.lng});
+        node["amenity"](around:2000,${location.lat},${location.lng});
       );
       out tags;
     `;

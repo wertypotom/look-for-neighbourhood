@@ -1,4 +1,5 @@
 import { Fetcher, FetcherResult } from './fetcher.types';
+import { GeocodeService } from '../../utils/geocode';
 
 export interface MinimizedRedditPost {
   title: string;
@@ -11,7 +12,13 @@ export const fetchSentiment: Fetcher = async (
   zip: string,
 ): Promise<FetcherResult> => {
   try {
-    const url = `https://www.reddit.com/r/milwaukee/search.json?q=${zip}&restrict_sr=1&sort=top`;
+    const location = await GeocodeService.getCoordinatesForZip(zip);
+
+    // Default to 'milwaukee' if resolving fails, but strip spaces for subreddit formatting
+    const rawCity = location ? location.city : 'milwaukee';
+    const subreddit = rawCity.toLowerCase().replace(/[\s-]/g, '');
+
+    const url = `https://www.reddit.com/r/${subreddit}/search.json?q=${zip}&restrict_sr=1&sort=top`;
 
     // Reddit asks for descriptive User-Agents
     const response = await fetch(url, {

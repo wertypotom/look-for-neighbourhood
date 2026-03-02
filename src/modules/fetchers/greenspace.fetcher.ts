@@ -5,12 +5,12 @@ export const fetchGreenspace: Fetcher = async (
   zip: string,
 ): Promise<FetcherResult> => {
   try {
-    const coords = await GeocodeService.getCoordinatesForZip(zip);
-    if (!coords) {
+    const location = await GeocodeService.getCoordinatesForZip(zip);
+    if (!location) {
       return {
         source: 'OpenStreetMap Parks',
         data: null,
-        error: `Could not determine coordinates for ZIP: ${zip}`,
+        error: `Could not determine location for ZIP: ${zip}`,
         fetchedAt: new Date(),
       };
     }
@@ -19,8 +19,8 @@ export const fetchGreenspace: Fetcher = async (
     const overpassQuery = `
       [out:json][timeout:15];
       (
-        nwr["leisure"="park"](around:2000,${coords.lat},${coords.lng});
-        nwr["leisure"="nature_reserve"](around:2000,${coords.lat},${coords.lng});
+        nwr["leisure"="park"](around:2000,${location.lat},${location.lng});
+        nwr["leisure"="nature_reserve"](around:2000,${location.lat},${location.lng});
       );
       out tags;
     `;

@@ -57,6 +57,17 @@
   },
   {
     "category": "functional",
+    "description": "Implement Multi-City Expansion",
+    "steps": [
+      "Add City and State to GeocodeService payload",
+      "Update sentiment.fetcher.ts to route Reddit queries dynamically",
+      "Create safety.adapter.ts with 10 US city Socrata links hashmap",
+      "Update safety.fetcher.ts to route safety data based on city"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
     "description": "Implement AI Enricher (Abacus) - Parallel",
     "steps": [
       "Setup Abacus AI client in src/services/ai.service.ts",
