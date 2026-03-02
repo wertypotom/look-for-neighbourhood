@@ -11,9 +11,22 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
+    "@types/hpp": "^0.2.7",
     "@types/node": "^25.3.3",
     "nodemon": "^3.1.14",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "zod": "^4.3.6"
   }
 }

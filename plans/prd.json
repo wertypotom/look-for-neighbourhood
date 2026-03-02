@@ -1,0 +1,126 @@
+[
+  {
+    "category": "infrastructure",
+    "description": "Initialize Project & Express Base",
+    "steps": [
+      "Initialize Express app with TypeScript",
+      "Setup src/ folder structure (config, modules, services, utils)",
+      "Add Zod for env var validation (src/config/env.ts)",
+      "Create basic /api/v1/health endpoint to verify setup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "infrastructure",
+    "description": "Supabase Integration & Caching Layer",
+    "steps": [
+      "Initialize Supabase client in src/services/supabase.client.ts",
+      "Create SQL migration for cache table (key, data, source, expires_at)",
+      "Create SQL migration for geocode_cache table (zip, lat, lng)",
+      "Implement cache.service.ts with getCache and setCache methods",
+      "Implement cache.service.ts read logic: ignore rows where expires_at < NOW()",
+      "Implement utils/geocode.ts with Supabase check before calling Nominatim"
+    ],
+    "passes": false
+  },
+  {
+    "category": "infrastructure",
+    "description": "Create Fetcher Interface & Orchestrator Base",
+    "steps": [
+      "Define FetcherResult interface in fetcher.types.ts",
+      "Create empty fetchers returning null in src/modules/fetchers",
+      "Implement index.ts exporting fetchAll() using Promise.allSettled",
+      "Create neighbourhoods.service.ts to call fetchAll"
+    ],
+    "passes": false
+  },
+  {
+    "category": "infrastructure",
+    "description": "Create Zillow Rent Data Seed Script",
+    "steps": [
+      "Create Supabase rent_data table migration",
+      "Implement src/scripts/seed-zillow.ts to parse CSV and insert",
+      "Add npm run seed:zillow command"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement Fetcher-Level Aggregation",
+    "steps": [
+      "Refactor fetchers to return pre-summarized data (Strategy 1)",
+      "Update sentiment.fetcher.ts to filter top 10 upvoted posts and extract only 2 sentences (Strategy 4)",
+      "Update pois.fetcher.ts to group OSM nodes by type (e.g., cafes: 12) rather than raw arrays",
+      "Remove extraneous Census/WalkScore fields to minimize token counts"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement AI Enricher (Abacus) - Parallel",
+    "steps": [
+      "Setup Abacus AI client in src/services/ai.service.ts",
+      "Implement prompt structures for individual sections (Rent, Safety, Vibe, etc.)",
+      "Implement parallel LLM processing (Promise.all) for each section",
+      "Handle partial AI failures gracefully (fallback to raw data)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Assemble Controller & Routes",
+    "steps": [
+      "Implement /api/v1/neighbourhoods/:zip route",
+      "Implement controller to validate ZIP, check cache, run fetchers",
+      "Run summarized fetcher results directly through parallel AI Enrichers",
+      "Assemble final JSON, save to cache, and return response"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement Safety Fetcher (Socrata)",
+    "steps": [
+      "Implement safety.fetcher.ts calling Milwaukee Socrata API",
+      "Integrate to orchestrator"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement Demographics Fetcher (Census)",
+    "steps": [
+      "Implement demographics.fetcher.ts (Census ACS)",
+      "Integrate to orchestrator"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement Sentiment Fetcher (Reddit)",
+    "steps": [
+      "Implement sentiment.fetcher.ts (Reddit JSON)",
+      "Integrate to orchestrator"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Implement Transit Fetcher (Walk Score)",
+    "steps": [
+      "Implement transit.fetcher.ts (Walk Score API)",
+      "Integrate to orchestrator"
+    ],
+    "passes": false
+  },
+  {
+    "category": "refactor",
+    "description": "Polish Error Handling & Logging",
+    "steps": [
+      "Add comprehensive error handling & logger.ts",
+      "Finalize API response integration",
+      "Verify all tests pass"
+    ],
+    "passes": false
+  }
+]
