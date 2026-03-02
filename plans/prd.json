@@ -32,7 +32,7 @@
       "Implement index.ts exporting fetchAll() using Promise.allSettled",
       "Create neighbourhoods.service.ts to call fetchAll"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "infrastructure",
