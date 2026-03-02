@@ -10,6 +10,7 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().url(),
   SUPABASE_KEY: z.string().min(1),
   ABACUS_API_KEY: z.string().min(1),
+  ABACUS_BASE_URL: z.string().url(),
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),

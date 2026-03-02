@@ -19,22 +19,19 @@ export class AiService {
     try {
       // Assuming Abacus AI allows an OpenAI-compatible /chat/completions route with their proxy
       // The model name 'llama-3-70b' is a placeholder depending on Abacus's hosted models
-      const response = await fetch(
-        'https://api.abacus.ai/api/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${env.ABACUS_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: 'llama-3-70b',
-            messages,
-            temperature,
-            max_tokens: 300, // Force it to stay extremely brief
-          }),
+      const response = await fetch(`${env.ABACUS_BASE_URL}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${env.ABACUS_API_KEY}`,
         },
-      );
+        body: JSON.stringify({
+          model: 'gpt-5',
+          messages,
+          temperature,
+          max_tokens: 300, // Force it to stay extremely brief
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(
