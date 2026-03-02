@@ -58,3 +58,25 @@ If the data says "No data available", reply with exactly: "Data is currently una
     { role: 'user', content: safeData },
   ];
 };
+
+export const buildMasterPrompt = (summaries: any): LLMMessage[] => {
+  const systemPrompt = `You are a senior real estate consultant and neighborhood advisor. 
+You will be provided with 7 brief summaries of different aspects of a neighborhood (Rent, Safety, POIs, Demographics, Transit, Sentiment, Greenspace).
+Your task is to synthesize these into a final, professional Master Recommendation.
+
+Structure your response EXACTLY like this:
+- **Green Flags & Strengths**: (Bullet points)
+- **Red Flags & Concerns**: (Bullet points)
+- **Final Recommendation**: (2-3 sentences max)
+- **Geographic Advice**: (1 sentence suggesting adjacent areas to North/South if they want something different)
+
+Be honest, analytical, and professional.`;
+
+  const userPrompt = `Here are the neighborhood summaries:
+${JSON.stringify(summaries, null, 2)}`;
+
+  return [
+    { role: 'system', content: systemPrompt },
+    { role: 'user', content: userPrompt },
+  ];
+};

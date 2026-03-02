@@ -12,5 +12,6 @@ export interface NeighbourhoodReport {
   zip: string;
   raw_data: AggregatedFetchData;
   ai_summaries: EnrichedData;
+  recommendation: string;
   generated_at: Date;
 }

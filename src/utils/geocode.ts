@@ -34,7 +34,7 @@ export class GeocodeService {
     try {
       // Note: Nominatim requires a descriptive User-Agent
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?postalcode=${zip}&country=USA&format=json&limit=1`,
+        `https://nominatim.openstreetmap.org/search?postalcode=${zip}&country=USA&format=json&limit=1&addressdetails=1`,
         {
           headers: {
             'User-Agent': 'LookForNeighbourhoodAPI/1.0',
@@ -60,19 +60,11 @@ export class GeocodeService {
       const lat = parseFloat(match.lat);
       const lng = parseFloat(match.lon);
 
-      // Nominatim display_name format usually: "City, County, State, ZIP, Country"
-      // e.g. "Milwaukee, Milwaukee County, Wisconsin, 53202, United States"
-      const addressParts = match.display_name
-        .split(',')
-        .map((p: string) => p.trim());
-
-      // A naive fallback - usually the first part is the city, and second to last is ZIP so third to last is State.
-      // E.g. addressParts[0] = City, addressParts[addressParts.length - 3] = State
-      const city = addressParts[0] || 'Unknown City';
-      const state =
-        addressParts.length >= 3
-          ? addressParts[addressParts.length - 3]
-          : 'Unknown State';
+      // 3. Extract City/State from structured address
+      const addr = match.address || {};
+      const city =
+        addr.city || addr.town || addr.village || addr.hamlet || 'Unknown City';
+      const state = addr.state || 'Unknown State';
 
       // 3. Save to Cache
       const { error: insertError } = await supabase

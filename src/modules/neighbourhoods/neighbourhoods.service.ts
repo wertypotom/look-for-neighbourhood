@@ -29,12 +29,15 @@ export const getNeighbourhoodReport = async (
 
   const rawData = await fetchAll(zip);
 
-  const aiSummaries = await enrichDataParallel(rawData);
+  // 3. Pass raw aggregated data into the AI Parallel Enricher
+  const aiResult = await enrichDataParallel(rawData);
 
+  // 4. Assemble final report
   const finalReport: NeighbourhoodReport = {
     zip,
     raw_data: rawData,
-    ai_summaries: aiSummaries,
+    ai_summaries: aiResult.summaries,
+    recommendation: aiResult.recommendation,
     generated_at: new Date(),
   };
 
