@@ -21,7 +21,7 @@
       "Implement cache.service.ts read logic: ignore rows where expires_at < NOW()",
       "Implement utils/geocode.ts with Supabase check before calling Nominatim"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "infrastructure",

@@ -1,2 +1,3 @@
 TESTS_ENABLED=false
 2026-03-01: Completed 'Initialize Project & Express Base'. Added Zod env checking and /api/v1/health endpoint.
+2026-03-01: Completed 'Supabase Integration & Caching Layer'. Added cache service, geocoder, and SQL migrations.
