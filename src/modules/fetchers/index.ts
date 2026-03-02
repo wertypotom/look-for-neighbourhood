@@ -6,6 +6,7 @@ import { fetchDemographics } from './demographics.fetcher';
 import { fetchTransit } from './transit.fetcher';
 import { fetchSentiment } from './sentiment.fetcher';
 import { fetchGreenspace } from './greenspace.fetcher';
+import { logger } from '../../utils/logger';
 
 export interface AggregatedFetchData {
   rent: FetcherResult | null;
@@ -23,6 +24,9 @@ export interface AggregatedFetchData {
  * the whole request (Graceful Degradation).
  */
 export const fetchAll = async (zip: string): Promise<AggregatedFetchData> => {
+  logger.info(`[FetchAll] Starting parallel fetch for ZIP: ${zip}`);
+  const startTime = Date.now();
+
   const [
     rentRes,
     safetyRes,
@@ -40,6 +44,24 @@ export const fetchAll = async (zip: string): Promise<AggregatedFetchData> => {
     fetchSentiment(zip),
     fetchGreenspace(zip),
   ]);
+
+  const duration = Date.now() - startTime;
+
+  const results = [
+    rentRes,
+    safetyRes,
+    poisRes,
+    demoRes,
+    transitRes,
+    sentimentRes,
+    greenRes,
+  ];
+  const fulfilledCount = results.filter((r) => r.status === 'fulfilled').length;
+  const rejectedCount = results.filter((r) => r.status === 'rejected').length;
+
+  logger.info(
+    `[FetchAll] Completed in ${duration}ms. Success: ${fulfilledCount}, Failed: ${rejectedCount}`,
+  );
 
   return {
     rent: rentRes.status === 'fulfilled' ? rentRes.value : null,

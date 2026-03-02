@@ -1,4 +1,5 @@
 import { env } from '../../config/env';
+import { logger } from '../../utils/logger';
 
 export interface LLMMessage {
   role: 'system' | 'user' | 'assistant';

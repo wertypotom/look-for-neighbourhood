@@ -86,7 +86,7 @@
       "Run summarized fetcher results directly through parallel AI Enrichers",
       "Assemble final JSON, save to cache, and return response"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -132,6 +132,6 @@
       "Finalize API response integration",
       "Verify all tests pass"
     ],
-    "passes": false
+    "passes": true
   }
 ]

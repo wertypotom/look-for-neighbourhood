@@ -6,6 +6,7 @@ import hpp from 'hpp';
 
 import { env } from './config/env';
 import neighbourhoodRoutes from './modules/neighbourhoods/neighbourhoods.routes';
+import { logger } from './utils/logger';
 
 const app = express();
 
@@ -60,6 +61,8 @@ app.use((req: Request, res: Response) => {
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   const status = err.status || 'error';
+
+  logger.error(`[App] Error on ${req.method} ${req.url}: ${err.message}`, err);
 
   res.status(statusCode).json({
     status,
