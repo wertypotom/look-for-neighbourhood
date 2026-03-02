@@ -42,7 +42,7 @@
       "Implement src/scripts/seed-zillow.ts to parse CSV and insert",
       "Add npm run seed:zillow command"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
