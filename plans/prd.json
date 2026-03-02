@@ -84,7 +84,7 @@
       "Implement safety.fetcher.ts calling Milwaukee Socrata API",
       "Integrate to orchestrator"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -93,7 +93,7 @@
       "Implement demographics.fetcher.ts (Census ACS)",
       "Integrate to orchestrator"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -111,7 +111,7 @@
       "Implement transit.fetcher.ts (Walk Score API)",
       "Integrate to orchestrator"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "refactor",
