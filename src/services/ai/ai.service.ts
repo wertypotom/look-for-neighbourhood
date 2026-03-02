@@ -18,8 +18,7 @@ export class AiService {
     temperature = 0.2,
   ): Promise<string> {
     try {
-      // Assuming Abacus AI allows an OpenAI-compatible /chat/completions route with their proxy
-      // The model name 'llama-3-70b' is a placeholder depending on Abacus's hosted models
+      const startTime = Date.now();
       const response = await fetch(`${env.ABACUS_BASE_URL}/chat/completions`, {
         method: 'POST',
         headers: {
@@ -41,14 +40,16 @@ export class AiService {
       }
 
       const data = await response.json();
+      const duration = Date.now() - startTime;
 
       if (data.choices && data.choices.length > 0) {
+        logger.debug(`[AiService] Completion successful in ${duration}ms`);
         return data.choices[0].message.content.trim();
       }
 
       throw new Error('Unexpected response structure from Abacus AI');
     } catch (error) {
-      console.error('[AiService] LLM Generation failed:', error);
+      logger.error('[AiService] LLM Generation failed', error);
       throw error;
     }
   }

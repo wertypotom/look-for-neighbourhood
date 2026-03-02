@@ -16,32 +16,21 @@ export const getAllNeighbourhoods = async (): Promise<Neighbourhood[]> => {
 export const getNeighbourhoodReport = async (
   zip: string,
 ): Promise<NeighbourhoodReport> => {
-  console.log(`[NeighbourhoodsService] Fetching data for zip: ${zip}...`);
+  logger.info(`[NeighbourhoodsService] Generating report for ZIP: ${zip}`);
+  const startTime = Date.now();
 
-  // 1. Check Full Report Cache (7 days TTL)
-  // We use the 'report' source tag to distinguish from raw API caches
   const cacheKey = `report:${zip}`;
   const cachedReport = await CacheService.getCache(cacheKey);
 
   if (cachedReport) {
-    console.log(`[NeighbourhoodsService] Cache hit for full report: ${zip}`);
-    // Assume stored cache matches our interface
+    logger.info(`[NeighbourhoodsService] Cache hit for ZIP: ${zip}`);
     return cachedReport as NeighbourhoodReport;
   }
 
-  // 2. Trigger all 7 API fetchers in parallel
-  console.log(
-    `[NeighbourhoodsService] Cache miss. Initiating parallel fetchers...`,
-  );
   const rawData = await fetchAll(zip);
 
-  // 3. Pass raw aggregated data into the AI Parallel Enricher
-  console.log(
-    `[NeighbourhoodsService] Fetchers complete. Initiating AI parallel enrichment...`,
-  );
   const aiSummaries = await enrichDataParallel(rawData);
 
-  // 4. Assemble final report
   const finalReport: NeighbourhoodReport = {
     zip,
     raw_data: rawData,
@@ -49,8 +38,12 @@ export const getNeighbourhoodReport = async (
     generated_at: new Date(),
   };
 
-  // 5. Save final payload to cache (604800 seconds = 7 days)
   await CacheService.setCache(cacheKey, finalReport, 'Full_Report', 604800);
+
+  const duration = Date.now() - startTime;
+  logger.info(
+    `[NeighbourhoodsService] Report generated in ${duration}ms for ZIP: ${zip}`,
+  );
 
   return finalReport;
 };
