@@ -53,7 +53,7 @@
       "Update pois.fetcher.ts to group OSM nodes by type (e.g., cafes: 12) rather than raw arrays",
       "Remove extraneous Census/WalkScore fields to minimize token counts"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
