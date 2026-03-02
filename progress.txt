@@ -7,3 +7,4 @@ TESTS_ENABLED=false
 2026-03-01: Completed 'Implement POIs & Greenspace Fetchers'. Built OSM Overpass API modules and applied Strategy 1 aggregation.
 2026-03-01: Completed 'Implement Safety, Demographics, and Transit Fetchers'. Used Socrata, Census API, and Overpass with Strategy 1 aggregators.
 2026-03-01: Completed 'Implement Multi-City Expansion'. Extracted City via GeocodeService, updated Reddit dynamic routing, and built City Adapter hashmap for Safety.
+2026-03-01: Completed 'Implement AI Enricher (Abacus) - Parallel'. Built ai.service for OpenAI-compatible proxies, structured prompts, and parallel Promise.allSettled orchestrator with graceful degrade.
